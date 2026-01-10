@@ -1,0 +1,11 @@
+nodeid,manufacturer,model,category,region,application,avgpower_W,embodiedCO2_kg,operating_hours_per_year,material_recyclability_fraction,ecoimpactscore,karmaperkgCO2avoided,notes
+CN-UNITREE-H1-IND-01,Unitree,H1,Humanoid,China,Industrial-Logistics,900,5200,2500,0.72,0.81,6.7e5,Warehouse pallet handling replacing diesel forklifts; CES 2026 demo lineage 
+CN-UBTECH-S2-LOG-01,UBTech,Walker S2,Humanoid,China,Industrial-Sorting,650,4800,2200,0.69,0.79,6.7e5,Bin sorting and line-side delivery in manufacturing cells 
+CN-AGIBOT-A10-SVC-01,AgiBot,A10,Humanoid,China,Service-Retail,420,3900,2600,0.75,0.77,6.7e5,In-store stocking, light cleaning in retail environments 
+CN-XHUMAN-X1-RND-01,BeijingHumanoidCenter,X-Humanoid X1,Humanoid,China,R&D-Platform,580,4100,1800,0.70,0.76,6.7e5,Laboratory and developer platform for physical-AI experiments 
+CN-UNIX-WANDA-HOME-01,UniXAI,Wanda,Humanoid,China,Home-Hospitality,380,3600,2400,0.78,0.80,6.7e5,Home chores and tea-service use-case shown at CES 2026 
+US-STARTUP-HUM-REF-01,USVendor,RefBot-1,Humanoid,USA,Industrial-Ref,950,6100,2300,0.68,0.74,6.7e5,Reference non-Chinese industrial humanoid, similar payload class
+KR-STARTUP-HUM-REF-01,KRVendor,K-Hum-1,Humanoid,Korea,Industrial-Ref,820,5900,2300,0.70,0.75,6.7e5,Korean competitor with strong AI stack, used as baseline 
+JP-STARTUP-HUM-REF-01,JPVendor,J-Hum-1,Humanoid,Japan,Service-Ref,500,4400,2100,0.77,0.78,6.7e5,Japanese service humanoid baseline, high hardware quality
+CN-UNITREE-H1-FLOOR-01,Unitree,H1,Humanoid,China,Facility-Cleaning,420,5200,2600,0.72,0.82,6.7e5,Floor-cleaning and waste handling at logistics hub 
+CN-UBTECH-S2-PICK-01,UBTech,Walker S2,Humanoid,China,Warehouse-Picking,700,4800,2700,0.69,0.83,6.7e5,Piece-picking and tote transport replacing manual carts 
