@@ -1,0 +1,123 @@
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <stdexcept>
+#include <cmath>
+
+struct EnvWindowRow {
+    std::string nodeid;
+    std::string stationid;
+    std::string stakeholderid;
+    std::string contaminant;
+    double cin;
+    double cout;
+    double flow;
+    std::string windowstart;
+    std::string windowend;
+    double cref;
+    double hazardweight;
+    double kn;
+    double ecoimpactscore;
+    std::string unitsC;
+    std::string unitsQ;
+    std::string sourceprogram;
+};
+
+static double parseDurationSeconds(const std::string& windowstart,
+                                   const std::string& windowend)
+{
+    // Minimal placeholder: assume 30 days for monthly windows, 365 days for annual.
+    // In production, replace with real ISO8601 parsing.
+    if (windowstart.substr(5,2) == "01" && windowend.substr(5,2) == "12") {
+        return 365.0 * 24.0 * 3600.0;
+    }
+    return 30.0 * 24.0 * 3600.0;
+}
+
+static double computeKn(const EnvWindowRow& r) {
+    double deltaC = r.cin - r.cout;
+    if (deltaC <= 0.0 || r.cref <= 0.0 || r.flow <= 0.0) {
+        return 0.0;
+    }
+    double duration = parseDurationSeconds(r.windowstart, r.windowend);
+    double loadTerm = (deltaC / r.cref) * r.flow * duration;
+    return r.hazardweight * loadTerm;
+}
+
+static std::vector<EnvWindowRow> loadWindows(const std::string& path) {
+    std::ifstream file(path);
+    if (!file.is_open()) {
+        throw std::runtime_error("Unable to open CSV: " + path);
+    }
+
+    std::vector<EnvWindowRow> rows;
+    std::string line;
+    // Skip header
+    if (!std::getline(file, line)) return rows;
+
+    while (std::getline(file, line)) {
+        if (line.empty()) continue;
+        std::stringstream ss(line);
+        std::string field;
+        std::vector<std::string> fields;
+        while (std::getline(ss, field, ',')) {
+            fields.push_back(field);
+        }
+        if (fields.size() < 16) continue;
+
+        EnvWindowRow r;
+        r.nodeid          = fields[0];
+        r.stationid       = fields[1];
+        r.stakeholderid   = fields[2];
+        r.contaminant     = fields[3];
+        r.cin             = std::stod(fields[4]);
+        r.cout            = std::stod(fields[5]);
+        r.flow            = std::stod(fields[6]);
+        r.windowstart     = fields[7];
+        r.windowend       = fields[8];
+        r.cref            = std::stod(fields[9]);
+        r.hazardweight    = std::stod(fields[10]);
+        r.kn              = std::stod(fields[11]);
+        r.ecoimpactscore  = std::stod(fields[12]);
+        r.unitsC          = fields[13];
+        r.unitsQ          = fields[14];
+        r.sourceprogram   = fields[15];
+        rows.push_back(r);
+    }
+    return rows;
+}
+
+static void writeKarmaCSV(const std::string& outPath,
+                          const std::vector<EnvWindowRow>& rows)
+{
+    std::ofstream out(outPath);
+    if (!out.is_open()) {
+        throw std::runtime_error("Unable to write CSV: " + outPath);
+    }
+
+    out << "nodeid,contaminant,kn,ecoimpactscore,windowstart,windowend,unitsC,unitsQ,sourceprogram\n";
+    for (const auto& r : rows) {
+        out << r.nodeid << ","
+            << r.contaminant << ","
+            << r.kn << ","
+            << r.ecoimpactscore << ","
+            << r.windowstart << ","
+            << r.windowend << ","
+            << r.unitsC << ","
+            << r.unitsQ << ","
+            << r.sourceprogram << "\n";
+    }
+}
+
+int main() {
+    const std::string inPath  = "qpudatashards/particles/EcoNetCentralAZKarmaWindowTemplate.csv";
+    const std::string outPath = "qpudatashards/particles/CEIMXJKarma20241130.csv";
+
+    auto rows = loadWindows(inPath);
+    for (auto& r : rows) {
+        r.kn = computeKn(r);
+    }
+    writeKarmaCSV(outPath, rows);
+    return 0;
+}
