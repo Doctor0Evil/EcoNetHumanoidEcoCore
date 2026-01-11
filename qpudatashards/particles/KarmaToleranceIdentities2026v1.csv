@@ -1,0 +1,6 @@
+identity_id,identity_type,region,eco_impact_score,contribution_score,security_trust_score,current_karma,karma_tolerance_level,max_intrusion_response_level,last_incident_severity,flags,notes
+ID-ECONET-HUMAN-01,Human-Contributor,Phoenix-AZ,0.94,0.96,0.89,0.93,HIGH,LOW,NONE,"PROTECTED;DataSensitive=HIGH","PFBS/E. coli mitigation designer; Lake Pleasant & Gila projects; retains non-public research data"
+ID-GH-ORG-ECONET-01,GitHubOrg,Global,0.91,0.94,0.92,0.92,HIGH,LOW,NONE,"SECURE","EcoNet multi-repo org; CEIM and qpudatashard tooling for Arizona"
+ID-AI-AGENT-ECONET-01,AI-Agent,Global,0.88,0.91,0.87,0.89,HIGH,MEDIUM,LOW,"MONITOR","Agent orchestrating CEIM runs and Karma analytics"
+ID-DEVICE-CLUSTER-GILA-01,DeviceCluster,Gila-AZ,0.10,0.15,0.40,0.23,LOW,CRITICAL,MEDIUM,"ANOMALY","Mixed-trust sensors near impaired Gila E. coli segments"
+ID-INTRUDER-CLUSTER-01,NetworkCluster,Unknown,0.00,0.00,0.08,0.04,LOW,CRITICAL,HIGH,"QUARANTINE","Rogue AR/VR or remote clusters attempting account compromise and telemetry tampering"
